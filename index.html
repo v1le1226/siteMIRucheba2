@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaStream | Smirnov 2026</title>
+    
+    <!-- Шрифты и анимации -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="https://unpkg.com" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --accent: #818cf8;
+            --dark: #0f172a;
+            --text: #334155;
+            --bg-soft: #f8fafc;
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--text);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Шапка --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.2rem 8%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo { font-weight: 800; font-size: 1.5rem; color: var(--dark); letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+
+        nav a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        nav a:hover { color: var(--primary); }
+
+        /* --- Главный экран --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10%;
+            background: radial-gradient(circle at 10% 20%, rgba(224, 231, 255, 0.5) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 80%, rgba(245, 243, 255, 0.5) 0%, transparent 50%);
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            color: var(--text);
+        }
+
+        .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; align-items: center; }
+        .btn {
+            padding: 1.1rem 2.2rem;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary { background: var(--dark); color: white; }
+        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); background: var(--primary); }
+        .btn-outline { border: 2px solid var(--dark); color: var(--dark); }
+        .btn-outline:hover { background: var(--bg-soft); transform: translateY(-5px); }
+
+        /* --- Секция Карточки --- */
+        .section { padding: 100px 10%; max-width: 1400px; margin: 0 auto; }
+        .section h2 { font-size: 2.2rem; font-weight: 800; text-align: center; margin-bottom: 3.5rem; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--bg-soft);
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.03);
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: white;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.06);
+            border-color: var(--accent);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover .card-img { transform: scale(1.06); }
+        .card-body { padding: 2.2rem; flex-grow: 1; }
+        .card h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--dark); }
+
+        /* --- Таблица --- */
+        .table-container {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 650px; }
+        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid #f1f5f9; }
+        th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
+        .highlight { color: var(--primary); font-weight: 800; }
+
+        /* --- Футер --- */
+        footer {
+            background: var(--dark);
+            padding: 80px 10% 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .footer-logo { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .sep { width: 40px; height: 3px; background: var(--primary); margin: 1.5rem auto; border-radius: 2px; }
+        .copy { color: #64748b; font-size: 0.85rem; line-height: 1.8; margin-top: 2rem; }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem 5%; }
+            nav { display: none; }
+            .hero-content h1 { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NOVA<span>STREAM</span></div>
+        <nav>
+            <a href="#target">Аудитория</a>
+            <a href="#compare">Конкуренты</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Создаем цифровое будущее</h1>
+            <p>NovaStream — ваш партнер в мире ИТ. Мы превращаем идеи в продукты, которые работают на ваш результат.</p>
+            <div class="btn-group">
+                <!-- Звонок -->
+                <a href="tel:+79991234567" class="btn btn-primary">Позвонить</a>
+                
+                <!-- Сообщение в TG с локальной иконкой tg.png -->
+                <a href="https://t.me" target="_blank" class="btn btn-outline">
+                    <img src="tg.png" width="22" alt="tg icon">
+                    Написать 
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="target" class="section">
+        <h2 data-aos="fade-down">Для кого мы работаем</h2>
+        <div class="grid">
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-img-wrapper">
+                    <img src="target-1.jpg" alt="Enterprise" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3>Enterprise Solutions</h3>
+                    <p>Комплексные системы для крупного бизнеса, где важна масштабируемость и безопасность.</p>
+                </div>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-img-wrapper">
+                    <img src="target-2.jpg" alt="Startups" class="card-img">
+                </div>
+                <div class="card-body">
+                    <h3>Fast Startups</h3>
+                    <p>Быстрая разработка MVP и техническая экспертиза для запуска инновационных идей.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="compare" class="section" style="background-color: #f1f5f9; max-width: 100%;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 data-aos="fade-up">Анализ конкурентов</h2>
+            <div class="table-container" data-aos="zoom-in">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Показатель</th>
+                            <th class="highlight">NovaStream</th>
+                            <th>GlobalTech</th>
+                            <th>Apex Digital</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Поддержка</td>
+                            <td class="highlight">24/7 персонально</td>
+                            <td>Тикет-система</td>
+                            <td>Email (до 48ч)</td>
+                        </tr>
+                        <tr>
+                            <td>Гарантия</td>
+                            <td class="highlight">Пожизненная</td>
+                            <td>12 месяцев</td>
+                            <td>3 месяца</td>
+                        </tr>
+                        <tr>
+                            <td>Безопасность</td>
+                            <td class="highlight">Audit Grade A</td>
+                            <td>Стандартная</td>
+                            <td>Стандартная</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacts">
+        <div class="footer-logo" data-aos="fade-up">NOVASTREAM</div>
+        <p>Санкт-Петербург, ИТ-Кластер "Север"</p>
+        <div class="sep"></div>
+        <p class="copy">
+            © 2026 Smirnov & Co. Все права защищены.<br>
+            Корпоративный сайт разработан в рамках Практической работы №2.<br>
+            Дисциплина: "Мировые информационные ресурсы".
+        </p>
+    </footer>
+
+    <script src="https://unpkg.com"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
